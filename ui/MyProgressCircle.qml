@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQml 2.2
 
-import "Functions.js" as JSFunctions
+import "js/Functions.js" as JSFunctions
 
 Item {
     id: root

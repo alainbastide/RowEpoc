@@ -7,7 +7,7 @@ import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.12
 import QtQuick.Controls.Styles 1.4
 
-import "Functions.js" as ChartsFunctions
+import "js/Functions.js" as ChartsFunctions
 
 
 Window {

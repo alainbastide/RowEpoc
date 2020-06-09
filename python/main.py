@@ -156,7 +156,7 @@ if __name__ == '__main__':
 
     engine.rootContext().setContextProperty("HR", HR)
 
-    engine.load(QUrl("main.qml"))
+    engine.load(QUrl("../ui/main.qml"))
 
     if not engine.rootObjects():
         sys.exit(-1)
