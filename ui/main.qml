@@ -13,8 +13,8 @@ import "js/Functions.js" as ChartsFunctions
 Window {
     id: root
 
-    width: 400
-    height: width
+    width: 800
+    height: 400
     color: "#1c1c1c"
     visible: true
     title: "RowEPOC"
@@ -73,21 +73,96 @@ Window {
 
             }
 
-//            myProgressCircle.givenValue = ( myProgressCircle.givenValue>= 145) ? myProgressCircle.givenValue*ChartsFunctions.entierAleatoire(99,101)/100 : 150;
+            //            myProgressCircle.givenValue = ( myProgressCircle.givenValue>= 145) ? myProgressCircle.givenValue*ChartsFunctions.entierAleatoire(99,101)/100 : 150;
         }
     }
 
     Column {
         id: column
-        anchors.fill: parent
+        width: 800
+        height: 400
 
         MyProgressCircle {
             id: myProgressCircle
-            width: parent.width
-            height: parent.height
-            anchors.fill: parent
+            width: 400
+            height: 400
+            anchors.right: grid.left
+            anchors.rightMargin: 0
+            anchors.top: column.top
 
         }
+
+        Grid {
+            id: grid
+            width: 400
+            height: 400
+            anchors.left: myProgressCircle.right
+            anchors.top: column.top
+
+            Text {
+                id: paceText
+                width: 200
+                color: "#ffffff"
+                text: qsTr("Allure 500m")
+                font.pixelSize: 30
+            }
+
+            Text {
+                id: pace
+                width: 200
+                color: "#ffffff"
+                text: qsTr("Text")
+                horizontalAlignment: Text.AlignRight
+                anchors.left: paceText.right
+                anchors.leftMargin: 0
+                font.pixelSize: 30
+            }
+
+            Text {
+                id: distanceText
+                width: 200
+                color: "#ffffff"
+                text: qsTr("Distance")
+                font.pixelSize: 30
+                anchors.top: pace.bottom
+            }
+
+            Text {
+                id: distance
+                width: 200
+                color: "#ffffff"
+                text: qsTr("Text")
+                horizontalAlignment: Text.AlignRight
+                anchors.left: distanceText.right
+                anchors.leftMargin: 0
+                font.pixelSize: 30
+                anchors.top: pace.bottom
+            }
+
+            Text {
+                id: wattText
+                width: 200
+                color: "#ffffff"
+                text: qsTr("Puissance")
+                anchors.topMargin: 0
+                font.pixelSize: 30
+                anchors.top: distanceText.bottom
+            }
+
+            Text {
+                id: watt
+                width: 200
+                color: "#ffffff"
+                text: qsTr("Text")
+                anchors.topMargin: 0
+                font.pixelSize: 30
+                anchors.left: distanceText.right
+                anchors.top: distance.bottom
+                horizontalAlignment: Text.AlignRight
+                anchors.leftMargin: 0
+            }
+        }
+
 
 
     }
@@ -114,25 +189,31 @@ Window {
 
     }
 
-//    Popup {
-//        id: popup
-//        x: 100
-//        y: 100
-//        width: 200
-//        height: 300
-//        modal: true
-//        focus: true
-//        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+    //    Popup {
+    //        id: popup
+    //        x: 100
+    //        y: 100
+    //        width: 200
+    //        height: 300
+    //        modal: true
+    //        focus: true
+    //        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
-//        Button {
-//            text: "Close"
-//            onClicked: popup.close()
-//        }
-//    }
-//    Button {
-//        text: "Open"
-//        onClicked: popup.open()
-//    }
+    //        Button {
+    //            text: "Close"
+    //            onClicked: popup.close()
+    //        }
+    //    }
+    //    Button {
+    //        text: "Open"
+    //        onClicked: popup.open()
+    //    }
 
 }
 
+
+/*##^##
+Designer {
+    D{i:3;anchors_height:400;anchors_width:400}D{i:4;anchors_width:400}
+}
+##^##*/
