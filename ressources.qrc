@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/new/ui">
-        <file>ui/js/Functions.js</file>
-        <file>ui/Error.qml</file>
-        <file>ui/main.qml</file>
-        <file>ui/MyProgressCircle.qml</file>
-    </qresource>
-</RCC>
