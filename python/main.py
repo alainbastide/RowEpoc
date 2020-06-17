@@ -1,7 +1,7 @@
 import sys
 import random
 
-from PySide2.QtWidgets import QApplication 
+from PySide2.QtWidgets import QApplication
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine, qmlRegisterType
 from PySide2.QtCore import QUrl
@@ -34,7 +34,7 @@ class connectConcept2(QObject):
         self.calories = 0
         self.status = 0
         self.writeCSV=1
-        
+
     @Slot(result=int)
     def getErgs(self):
 
@@ -47,7 +47,7 @@ class connectConcept2(QObject):
     def connectToErg(self):
         try:
                 self.ergs = list(pyrow.find())
-                
+
                 return(True)
 
         except:
@@ -97,16 +97,16 @@ class connectConcept2(QObject):
     @Slot(result=int)
     def getHeartRate(self):
             return(self.heartrate)
-        
+
     @Slot(result=int)
     def getDistance(self):
             return(self.distance)
-        
-        
+
+
     @Slot(result=int)
     def getTime(self):
             return(self.time)
-            
+
     @Slot(result=int)
     def getStrokes(self):
             return(self.spm)
@@ -114,7 +114,7 @@ class connectConcept2(QObject):
     @Slot(result=int)
     def getPower(self):
             return(self.power)
-                
+
     @Slot(result=float)
     def getPace(self):
             return(self.pace)
@@ -122,49 +122,49 @@ class connectConcept2(QObject):
     @Slot(result=int)
     def getCalories(self):
             return(self.calories)
-    
+
     @Slot(result=str)
     def getStatuts(self):
             return(self.status)
-    
+
     @Slot()
     def writeData(self):
         import csv
-        
-        with open('data.csv', 'a') as f:  
+
+        with open('../data/data.csv', 'a') as f:
             w = csv.DictWriter(f, self.monitor.keys())
             if(self.writeCSV==1):
                 w.writeheader()
                 self.writeCSV=0
             w.writerow( self.monitor  )
-            
-        with open('get_workout.csv', 'a') as f:  
+
+        with open('../data/get_workout.csv', 'a') as f:
             gwt = (self.erg).get_workout()
             w = csv.DictWriter(f, gwt.keys())
             if(self.writeCSV==1):
                 w.writeheader()
                 self.writeCSV=0
             w.writerow(  gwt)
-        
-        
-        with open('get_erg.csv', 'a') as f:  
+
+
+        with open('../data/get_erg.csv', 'a') as f:
             gwt = (self.erg).get_erg()
             w = csv.DictWriter(f, gwt.keys())
             if(self.writeCSV==1):
                 w.writeheader()
                 self.writeCSV=0
             w.writerow(  gwt)
-                
-        
-        with open('get_status.csv', 'a') as f:  
+
+
+        with open('../data/get_status.csv', 'a') as f:
             gwt = (self.erg).get_status()
             w = csv.DictWriter(f, gwt.keys())
             if(self.writeCSV==1):
                 w.writeheader()
                 self.writeCSV=0
             w.writerow(  gwt)
-                    
-               
+
+
 
 class HeartRate(QObject):
 
