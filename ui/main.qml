@@ -50,29 +50,16 @@ Window {
 
     title: "RowEPOC"
 
-    //    onVisibilityChanged: {
-    //        console.log(Qt.Key_ScreenSaver.valueOf())
-    //    }
-
-    //    Component.ScreenSaver {
-    //        id: screenSaver
-    //        screenSaverEnabled: !Qt.application.active
-    //    }
     onHeightChanged: {
-
         root.height = root.width / 2
-        // charge au demarrage
     }
 
     onWidthChanged: {
-
         root.height = root.width / 2
-        //        dataList[0].nameZone.text = ""
-        // charge au demarrage
     }
 
     HrCircles {
-        id: myProgressCircle
+        id: hrCircle
         x: 0
         y: 0
         width: root.width / 2
@@ -161,140 +148,6 @@ Window {
         }
     }
 
-
-    //    onWidthChanged: {
-    //        root.height = 400
-    //        root.width = 800
-    //    }
-
-    //    onHeightChanged: {
-    //        root.height = 400
-    //        root.width = 800
-    //    }
-    //    ListView {
-    //        id: dataList
-
-    //        x: 400
-    //        width: root.width / 2
-    //        height: root.height
-    //        anchors.verticalCenter: parent.verticalCenter
-    //        anchors.right: parent.right
-    //        anchors.bottom: parent.bottom
-    //        anchors.top: parent.top
-    //        anchors.left: myProgressCircle.right
-    //        anchors.leftMargin: 6
-    //        antialiasing: true
-    //        highlightMoveDuration: 0
-    //        highlightRangeMode: ListView.ApplyRange
-    //        flickableDirection: Flickable.AutoFlickDirection
-    //        delegate: Item {
-    //            x: 5
-    //            width: dataList.width
-    //            height: 400 / 7 * dataList.width / 400
-    //            Row {
-    //                id: row1
-    //                width: dataList.width
-
-    //                Text {
-    //                    text: nameZone
-    //                    font.bold: true
-    //                    width: dataList.width / 4 * 1.5
-    //                    anchors.verticalCenter: parent.verticalCenter
-    //                    color: "white"
-    //                    fontSizeMode: Text.HorizontalFit
-    //                    verticalAlignment: Text.AlignVCenter
-    //                    horizontalAlignment: Text.AlignLeft
-    //                    font.pixelSize: 15 * dataList.width / 400
-    //                }
-    //                Text {
-    //                    text: dataZone
-    //                    font.bold: false
-    //                    anchors.bottom: parent.bottom
-    //                    width: dataList.width / 2
-    //                    color: "white"
-    //                    font.family: "Digital-7"
-    //                    fontSizeMode: Text.HorizontalFit
-    //                    font.pixelSize: 60 * dataList.width / 400
-    //                    verticalAlignment: Text.AlignVCenter
-    //                    horizontalAlignment: Text.AlignRight
-    //                }
-    //                Text {
-    //                    //                    id: changeZone
-    //                    text: unitZone
-    //                    font.bold: false
-    //                    anchors.bottom: row1.anchors.TopAnchor //parent.bottom
-    //                    width: dataList.width / 4 * 3
-    //                    color: "white"
-    //                    fontSizeMode: Text.HorizontalFit
-    //                    font.pixelSize: 15 * dataList.width / 400
-    //                    verticalAlignment: Text.AlignBottom
-    //                    horizontalAlignment: Text.AlignLeft
-    //                }
-    //                spacing: 3
-    //            }
-    //        }
-
-    //        model: ListModel {
-    //            property var colorArray: [3600, 7200, HR.actualHeartRateProp]
-    //            ListElement {
-    //                //                changeZone: distance
-    //                nameZone: qsTr("Distance")
-    //                dataZone: "1005"
-    //                unitZone: "m"
-    //            }
-
-    //            ListElement {
-    //                //                changeZone: pace
-    //                nameZone: qsTr("Allure")
-    //                dataZone: "2:07.20" //ChartsFunctions.secondsToTime(3600) //"2:07.20"
-    //                unitZone: ""
-    //            }
-    //            ListElement {
-    //                //                changeZone: power
-    //                nameZone: qsTr("Puissance")
-    //                dataZone: "315"
-    //                unitZone: "W"
-    //            }
-
-    //            ListElement {
-    //                //                changeZone: strokes
-    //                nameZone: qsTr("Coups de Rame")
-    //                dataZone: "22"
-    //                unitZone: ""
-    //            }
-
-    //            ListElement {
-    //                //                changeZone: timeStart
-    //                nameZone: qsTr("Temps")
-    //                dataZone: "22:32.20"
-    //                unitZone: ""
-    //            }
-
-    //            ListElement {
-    //                //                changeZone: lap2K
-    //                nameZone: qsTr("Passage au 2K")
-    //                dataZone: "2:02.20"
-    //                unitZone: ""
-    //            }
-
-    //            ListElement {
-    //                //                changeZone: timeEnd
-    //                nameZone: qsTr("Projection fin")
-    //                dataZone: "2:02.20"
-    //                unitZone: ""
-    //            }
-    //        }
-
-    //        //        Text {
-    //        //            id: element
-    //        //            x: 112
-    //        //            y: 363
-    //        //            color: "#ffffff"
-    //        //            text: qsTr("Text")
-    //        //            fontSizeMode: Text.VerticalFit
-    //        //            font.pixelSize: 12
-    //        //        }
-    //    }
     Timer {
         id: testRefreshTimerOneSecond
         interval: 1000
@@ -312,18 +165,14 @@ Window {
         repeat: true
         onTriggered: {
 
-            myProgressCircle.givenValue = HR.actualHeartRateProp //HR.heartRateRestProp               // The size of the circle in pixel
-
-            myProgressCircle.hRR = HR.heartRateAerobicProp
-                    - 10 //HR.heartRateRestProp               // The size of the circle in pixel
-            myProgressCircle.hRAe = HR.heartRateAerobicProp // The size of the circle in pixel
-            myProgressCircle.hRAeA
-                    = HR.heartRateAdvencedAerobicProp // The size of the circle in pixel
-            myProgressCircle.hRLa = HR.heartRateLacticProp // The size of the circle in pixel
-            myProgressCircle.hRAn = HR.heartRateAnaerobicProp // The size of the circle in pixel
-            myProgressCircle.hRAnA
-                    = HR.heartRateAdvencedAnaerobicProp // The size of the circle in pixel
-            myProgressCircle.hRMax = HR.heartRateMaxProp
+            hrCircle.givenValue = HR.actualHeartRateProp //HR.heartRateRestProp
+            hrCircle.hRR = HR.heartRateAerobicProp - 10 //HR.heartRateRestProp
+            hrCircle.hRAe = HR.heartRateAerobicProp
+            hrCircle.hRAeA = HR.heartRateAdvencedAerobicProp
+            hrCircle.hRLa = HR.heartRateLacticProp
+            hrCircle.hRAn = HR.heartRateAnaerobicProp
+            hrCircle.hRAnA = HR.heartRateAdvencedAnaerobicProp
+            hrCircle.hRMax = HR.heartRateMaxProp
 
             //            console.log("3600".toMMSS())
             connC2.connectToErg()
