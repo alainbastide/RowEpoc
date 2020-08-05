@@ -11,6 +11,147 @@ from PySide2.QtCore import QObject, Signal, Slot, Property
 
 from pyrow import pyrow
 
+
+
+import sqlite3
+
+import configparser
+config = configparser.ConfigParser()
+
+config.read('config.ini')
+
+
+#conn = sqlite3.connect(config['SQL']['sqlfile'])
+
+
+class dataStore(QObject):
+
+    def __init__(self):
+        QObject.__init__(self)
+
+        self.config = []
+        self.configFile = 'config.ini'
+        
+    def readConf(self):
+        self.config = configparser.ConfigParser()
+        
+        self.config.read(self.configFile)
+        
+        
+    @Slot(result=int)
+    def sqlConnect(self):
+        """ create a database connection to the SQLite database
+            specified by the db_file
+        :param db_file: database file
+        :return: Connection object or None
+        """
+        conn = None
+        try:
+            self.conn = sqlite3.connect(config['SQL']['sqlfile'])
+            return 1
+        except Error as e:
+            print(e)
+#            raise  e
+            return 0
+    
+    def createTables(self):
+
+        try:
+            c = self.conn.cursor()
+        
+            c.execute('''CREATE TABLE IF NOT EXISTS users
+                         (iduser  INTEGER PRIMARY KEY AUTOINCREMENT,
+                         firstname TEXT NOT NULL,
+                         lastname TEXT NOT NULL,
+                         dateBirth TEXT NOT NULL,
+                         MF VARCHAR(1) NOT NULL,
+                         email VARCHAR(256) NOT NULL,
+                         UNIQUE ( firstname, lastname, dateBirth, MF, email) );''')
+            self.conn.commit()
+            c.close()
+        
+        except sqlite3.IntegrityError:
+            print("User Table exist")
+        except sqlite3.Error :
+            print("Error on DB")
+        
+        try:
+            c = self.conn.cursor()
+        
+            c.execute('''CREATE TABLE IF NOT EXISTS  personnalData
+                         (idPersonnalData INTEGER PRIMARY KEY AUTOINCREMENT,
+                         date TEXT  NOT NULL,
+                         idUser INTEGER  NOT NULL,
+                         hrrest INTEGER NOT NULL,
+                         weight INTEGER NOT NULL,
+                         height INTEGER,
+                         wingspan INTEGER,
+                         FOREIGN KEY (idUser) REFERENCES users(iduser)
+                         ON UPDATE CASCADE
+                         ON DELETE CASCADE,
+                         UNIQUE ( idUser, date)
+                         )''')
+            self.conn.commit()
+            c.close()
+        
+        except sqlite3.IntegrityError:
+            print("personnalData Table exist")
+        except sqlite3.Error :
+            print("Error on DB")
+        
+        
+        try:
+            c = self.conn.cursor()
+        
+            c.execute('''CREATE TABLE IF NOT EXISTS  trainingData
+                         (idTrainingData INTEGER PRIMARY KEY AUTOINCREMENT,
+                         date TEXT  NOT NULL,
+                         idUser INTEGER  NOT NULL,
+                         idPersonnalData INTEGER  NOT NULL,
+                         FOREIGN KEY (idUser) REFERENCES users(iduser)
+                         ON UPDATE CASCADE
+                         ON DELETE CASCADE,
+                         FOREIGN KEY (idPersonnalData) REFERENCES personnalData(idPersonnalData)
+                         ON UPDATE CASCADE
+                         ON DELETE CASCADE,
+                         UNIQUE ( idUser,idPersonnalData, date)
+                         )''')
+            self.conn.commit()
+            c.close()
+        
+        except sqlite3.IntegrityError:
+            print("personnalData Table exist")
+        except sqlite3.Error :
+            print("Error on DB")
+        
+        
+        
+        
+        try:
+            c = self.conn.cursor()
+        
+            c.execute('''CREATE TABLE IF NOT EXISTS  rowingData
+                         (idRowingData INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                         idTrainingData INTEGER NOT NULL,
+                         time INTEGER,
+                         distance INTEGER,
+                         pace INTEGER,
+                         stroke INTEGER,
+                         HR INTEGER,
+                         FOREIGN KEY (idTrainingData) REFERENCES trainingData(idTrainingData)
+                         ON UPDATE CASCADE
+                         ON DELETE CASCADE 
+                         )''')
+            self.conn.commit()
+            c.close()
+        
+        except sqlite3.IntegrityError:
+            print("personnalData Table exist")
+        except sqlite3.Error :
+            print("Error on DB")
+        
+
+
 class connectConcept2(QObject):
 
     numberChanged = Signal(int)
@@ -278,6 +419,13 @@ if __name__ == '__main__':
 
     connC2  = connectConcept2()
     HR = HeartRate();
+    
+    sqlData = dataStore();
+    
+    sqlData.readConf();
+    sqlData.sqlConnect();
+    sqlData.createTables();
+    
 
     engine.rootContext().setContextProperty("connC2", connC2)
     engine.rootContext().setContextProperty("HR", HR)
